@@ -1,0 +1,50 @@
+<!doctype html>
+<html class="sl-theme-dark">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.streamlabs.com/slobs-platform/lib/streamlabs-platform.min.js"></script>
+    <style>
+      * {
+        color: var(--sl-color-neutral-1000);
+        font-family: var(--sl-font-sans);
+        box-sizing: inherit;
+      }
+
+      html, body {
+        padding: 0;
+        margin: 0;
+        overflow: hidden; 
+      }
+
+      #info-icon {
+        margin: 0.3em;
+        position: absolute;
+        display: flex;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        gap: 1rem;
+        align-items: anchor-center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+      }
+
+      .primary {
+        color: var(--sl-color-primary-400);
+      }
+
+      .warning {
+        color: var(--sl-color-warning-400);
+      }
+
+      .danger {
+        color: var(--sl-color-danger-400);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info-icon" style="display: none;"><sl-icon name="exclamation-circle-fill"></sl-icon>Keyboard Overlay Update</div>
+    <canvas id="3canvas"></canvas>
+  </body>
+</html>
