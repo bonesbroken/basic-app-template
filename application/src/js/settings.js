@@ -1,4 +1,7 @@
 import $ from "jquery";
+import equals from 'is-equal-shallow';
+import { defaultUserSettings } from './utils.js';
+
 import '@shoelace-style/shoelace/dist/themes/dark.css';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
@@ -19,7 +22,6 @@ import '@shoelace-style/shoelace/dist/components/details/details.js';
 import '@shoelace-style/shoelace/dist/components/radio/radio.js';
 import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js';
 import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js';
-import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
 import '@shoelace-style/shoelace/dist/components/tab/tab.js';
@@ -34,8 +36,9 @@ setBasePath('./shoelace');
 
 // streamlabs api variables
 let username, streamlabs, streamlabsOBS;
+let hasAppSource = false;
 let activeAppSourceId = 0;
-
+let userAssets = {};
 let oldSettings = {};
 let appSettings = {};
 
@@ -62,7 +65,7 @@ $(function() {
 
 async function init() {
     streamlabs = window.Streamlabs;
-    streamlabs.init({ receiveEvents: true, twitchChat: true }).then(async (data) => {
+    streamlabs.init({ receiveEvents: true }).then(async (data) => {
         appSettings = data;
         console.log('user data', appSettings);
         username = appSettings.profiles.streamlabs.name;
@@ -199,7 +202,7 @@ function initOBSApi() {
                 if(source.type == "browser_source" && source.appSourceId == "basic_app_source") {
                     hasAppSource = true;
                     activeAppSourceId = source.id;
-                    console.log("existing app source found", hasAppSource, activeAppSourceId);
+                    console.log(`App source found: ${hasAppSource}, ${activeAppSourceId}`);
                     updateAddAppSourceButton(hasAppSource);
                 }
             });
@@ -235,34 +238,29 @@ function initOBSApi() {
 }
 
 async function loadUserSettings() {
-    streamlabs.userSettings.get('customKeyboardSettings').then(data => {
-        console.log('loading user settings...', data);
+    streamlabs.userSettings.get('basic-app-settings').then(data => {
 
         if (!data) {
-            console.log("no settings found, reverting to default")
-            data = Keyboard.defaultSettings;
-            console.log('default data', data);
+            data = defaultUserSettings;
+            console.log("Loaded default settings.", data)
         }
         if (typeof data == "object") {
 
             // check for missing values
-            for (const [key, value] of Object.entries(Keyboard.defaultSettings)) {
+            for (const [key, value] of Object.entries(defaultUserSettings)) {
                 if(!data.hasOwnProperty(key)) {
                     console.log(`setting '${key}' missing! set to ${value}`);
-                    data[key] = Keyboard.defaultSettings[key];
+                    data[key] = defaultUserSettings[key];
                 }
             }
             oldSettings = structuredClone(data);
             settings = structuredClone(data);
-            settings['keyboard-logo'] = "";
         }
         
-        registerHotkeys();
     });
 
     streamlabs.userSettings.getAssets().then(response => { 
-        customAssets = response;
-        saveCustomTextures();
+        userAssets = response;
         console.log('=== LOADED CUSTOM ASSETS ===');
     });
 
@@ -274,6 +272,20 @@ async function loadUserSettings() {
     });
 }
 
+function updateAddAppSourceButton(hasSource) {
+    if(hasSource) {
+        $('#addAppSource').prop("disabled", hasSource);
+        $('#addAppSource').text("Basic App Source added.");
+        $('#addAppSource').parent().attr('content', 'Basic App Source is in your scene.');
+        $('#addAppSourceIcon').hide();
+    } else {
+        $('#addAppSource').prop("disabled", false);
+        $('#addAppSource').text("Add Basic App Source");
+        $('#addAppSource').parent().attr('content', 'Click to add the Basic App Source in your scene.');
+        $('#addAppSourceIcon').show();
+    }
+}
+
 // event handlers
 $("#app-link").on('click', () => { streamlabsOBS.v1.External.openExternalLink('https://bonesbroken.com/keyboard-overlay-app/'); });
 
@@ -282,7 +294,7 @@ $(".changelog-dismiss").on('click', () => {
     $('#changelog').hide();
     settings['dismissChangelog'] = true;
     settings['changeLogVersion'] = Keyboard.changeLogVersion;
-    streamlabs.userSettings.set('customKeyboardSettings', settings);
+    streamlabs.userSettings.set('basic-app-settings', settings);
     streamlabs.postMessage('dismissChangelog', {'dismissChangelog': true});
 });
 
@@ -302,16 +314,13 @@ function showUnsavedChanges() {
 
 function saveChanges() {
     if (equals(oldSettings, settings) == false) {
-        streamlabs.userSettings.set('customKeyboardSettings', settings).then(() => {
+        streamlabs.userSettings.set('basic-app-settings', settings).then(() => {
             showAlert('#keyboardSettingsUpdated', `Your changes have been saved`, 'Your Keyboard Overlay has been updated.');
             $(".button-saved").show();
             $(".button-unsaved").hide();
-            settings['keyboard-logo'] = "";
-            
-            registerHotkeys();
 
             streamlabs.userSettings.getAssets().then(response => { 
-                customAssets = response;
+                userAssets = response;
                 streamlabs.postMessage('updateTheme', settings);
             });
         });

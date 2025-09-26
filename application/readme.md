@@ -1,7 +1,6 @@
 ## File Structure
 |-- application.zip
     |-- dist/
-        |-- 3d/
         |-- images/
         |-- shoelace/
         |-- index.html
@@ -11,7 +10,6 @@
         |-- settings.html
         |-- settings.js
     |-- src/
-        |-- 3d/
         |-- images/
         |-- js/
         |-- templates/

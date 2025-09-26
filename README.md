@@ -1,5 +1,5 @@
-App Store URL: 
-Website: https://bonesbroken.com/
+App Store URL:  
+Website: https://bonesbroken.com/  
 
 # basic-app-template
 If you're interested in how to build an app for [Streamlabs Desktop](https://streamlabs.com/streamlabs-live-streaming-software) or OBS Studio, this project can serve as a good learning resource for beginners to create their first basic app on the [Streamlabs App Store](https://streamlabs.com/library/app-store).

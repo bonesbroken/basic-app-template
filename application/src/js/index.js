@@ -1,5 +1,5 @@
 import $ from "jquery";
-
+import equals from 'is-equal-shallow';
 // streamlabs api variables
 let username, streamlabs;
 let settings = {};
@@ -12,7 +12,7 @@ $(function() {
 async function init() {
     // streamlabs api initialization
     streamlabs = window.Streamlabs;
-    streamlabs.init({ receiveEvents: true, twitchChat: true }).then(async (data) => {
+    streamlabs.init({ receiveEvents: true }).then(async (data) => {
         appSettings = data;
         username = appSettings.profiles.streamlabs.name;
 

@@ -269,56 +269,6 @@
       width: 100%;
     }
 
-    .spinner {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 4;
-      background: var(--sl-color-neutral-0);
-
-      & > sl-spinner {
-        font-size: 10rem; 
-        --indicator-color: var(--sl-color-primary-600);
-        --track-color: #ffffffa1;
-        --track-width: 20px;
-      }
-    }
-
-    .component-spinner {
-      position: relative;
-
-      display: flex;
-      justify-content: center;
-      z-index: 4;
-
-      & > sl-spinner {
-        font-size: 1.5rem; 
-        --indicator-color: var(--sl-color-primary-600);
-        --track-color: #ffffffa1;
-        --track-width: 4px;
-      }
-    }
-
-    .apply-spinner {
-      position: relative;
-
-      display: flex;
-      align-self: center;
-      margin-right: 0.5rem;
-      z-index: 4;
-
-      & > sl-spinner {
-        font-size: 1.5rem; 
-        --indicator-color: var(--sl-color-primary-600);
-        --track-color: #ffffffa1;
-        --track-width: 4px;
-      }
-    }
 
     .setting-group-2 {
       display: flex;
@@ -1251,13 +1201,12 @@
 
           <div class="pages">
             <div class="pages__option" id="keyboardSettings">
-              <div class="spinner"><sl-spinner></sl-spinner></div>
               <canvas id="settingCanvas"></canvas>
             </div>
             
             <div class="pages__option" id="keyboardSkinGallery">
               <div class="skin-gallery-group">
-                <div title="Custom Keyboard" class="skin-gallery-item defaultKeyboard" data-theme="defaultModel"><sl-icon src="./images/defaultKeyboard.svg" style="font-size: 10rem;"></sl-icon><div class="skin-gallery-item-name">Custom</div></div>
+                <div title="Custom Keyboard" class="skin-gallery-item defaultKeyboard" data-theme="defaultModel"><div class="skin-gallery-item-name">Custom</div></div>
               </div>
             </div>
             <div id="keyboardSkinInspect" style="display: none;">
