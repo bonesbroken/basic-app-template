@@ -8,3 +8,5 @@ export const defaultUserSettings = {
     "onMerch": false,
     "onSuperchat": false,
 };
+
+export const appVersion = "0.1";

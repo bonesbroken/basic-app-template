@@ -436,14 +436,16 @@
     }
 
     .feedback-socials {
-      position:  absolute;
-      display: block;
-      bottom: 0;
-      right: 0;
-      margin: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
       z-index: 3;
+      position: absolute;
+
       max-width: 300px;
-      background: rgba(0, 0, 0, 0.15);
+      background: var(--sl-color-neutral-400);
       border-radius: 0.5rem;
       padding: 1rem;
 
@@ -456,6 +458,7 @@
           color: var(--sl-color-neutral-800);
         }
       }
+
     }
 
     #addAppSource {
@@ -995,13 +998,12 @@
 
     <sl-tooltip content="Click to add the Keyboard Overlay Source in your scene."><sl-button id="addAppSource" size="medium" variant="neutral" class="homepage-element">Add Keyboard Overlay Source<sl-icon slot="suffix" id="addAppSourceIcon" name="keyboard-fill"></sl-icon></sl-button></sl-tooltip>
     <div class="feedback-socials homepage-element">
-      <h3>Feedback</h3>
-      <p>Do you have issues, feedback, or suggestions? Join the <a id="discord-link2" href="https://discord.gg/XgZKP9nYU7">Discord Server</a> or reach out on <a id="x-link2" href="https://x.com/bonesbrokencom">Twitter.</a></p>
+      <h3>Welcome!</h3>
+      <p>Welcome to the basic-app-template starter.</p>
       <div class="social-buttons">
         <sl-tooltip content="Site"><sl-icon-button id="app-link" label="Site" name="globe"></sl-icon-button></sl-tooltip>
         <sl-tooltip content="X/Twitter"><sl-icon-button id="x-link" label="X/Twitter" name="twitter-x"></sl-icon-button></sl-tooltip>
         <sl-tooltip content="Discord"><sl-icon-button id="discord-link" label="Discord" name="discord"></sl-icon-button></sl-tooltip>
-        <sl-tooltip content="Tutorial"><sl-icon-button id="tutorial-link" label="Tutorial" name="youtube"></sl-icon-button></sl-tooltip>
         <span id="app-version"></span>
       </div>
     </div>

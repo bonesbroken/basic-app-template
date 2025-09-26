@@ -1,6 +1,6 @@
 import $ from "jquery";
 import equals from 'is-equal-shallow';
-import { defaultUserSettings } from './utils.js';
+import { defaultUserSettings, appVersion } from './utils.js';
 
 import '@shoelace-style/shoelace/dist/themes/dark.css';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
@@ -73,6 +73,7 @@ async function init() {
         // load user settings
         initOBSApi();
         await loadUserSettings();
+        $('#app-version').text(`v${appVersion}`);
     });
 
     streamlabs.onChatMessage(event => {
@@ -254,7 +255,7 @@ async function loadUserSettings() {
                 }
             }
             oldSettings = structuredClone(data);
-            settings = structuredClone(data);
+            appSettings = structuredClone(data);
         }
         
     });
@@ -288,16 +289,6 @@ function updateAddAppSourceButton(hasSource) {
 
 // event handlers
 $("#app-link").on('click', () => { streamlabsOBS.v1.External.openExternalLink('https://bonesbroken.com/keyboard-overlay-app/'); });
-
-
-$(".changelog-dismiss").on('click', () => { 
-    $('#changelog').hide();
-    settings['dismissChangelog'] = true;
-    settings['changeLogVersion'] = Keyboard.changeLogVersion;
-    streamlabs.userSettings.set('basic-app-settings', settings);
-    streamlabs.postMessage('dismissChangelog', {'dismissChangelog': true});
-});
-
 $(".button-unsaved").on('click', () => { saveChanges(); });
 
 
